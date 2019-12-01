@@ -1,0 +1,7 @@
+syntax = "proto3";
+package contextpb;
+
+message Context {
+  string ID = 1;
+  string Stepper = 2;
+}
