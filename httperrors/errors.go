@@ -157,7 +157,7 @@ type statusError struct {
 	Code    int           `json:"-"`
 	Header  http.Header   `json:"-"`
 	Message string        `json:"message"`
-	Details []interface{} `json:"details"`
+	Details []interface{} `json:"details,omitempty"`
 }
 
 func (se *statusError) Error() string {
