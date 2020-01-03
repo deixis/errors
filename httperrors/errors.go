@@ -4,10 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"math"
 	"net/http"
 
 	"github.com/deixis/errors"
+	"github.com/deixis/pkg/httputil"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 )
 
@@ -58,7 +58,7 @@ func pack(err error) (*Status, bool) {
 	switch err := err.(type) {
 	case *errors.AvailabilityFailure:
 		s := New(http.StatusServiceUnavailable, err.Error())
-		s.Header.Set("Retry-After", fmt.Sprintf("%f", math.Round(err.RetryInfo.RetryDelay.Seconds())))
+		httputil.FormatRetryAfter(s.Header, err.RetryInfo.RetryDelay)
 		return s, true
 	case *errors.PermissionFailure:
 		return New(http.StatusForbidden, err.Error()), true
