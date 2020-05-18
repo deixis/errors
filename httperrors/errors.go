@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"mime"
 	"net/http"
 
 	"github.com/deixis/errors"
@@ -33,6 +35,75 @@ func Marshal(r *http.Request, w http.ResponseWriter, err error) error {
 	}{
 		Error: status.statusError,
 	})
+}
+
+func Unmarshal(w *http.Response) error {
+	if w.StatusCode < 400 {
+		// We can consider statuses below 400 to be OK.
+		// Some 30X statuses could be considered as an error, but errors packages
+		// can't represent them at the moment.
+		//
+		// errors.NotFound could be appropriate.
+		return nil
+	}
+
+	defer w.Body.Close()
+	body, _ := ioutil.ReadAll(w.Body) // Ignore errors
+
+	switch w.StatusCode {
+	case http.StatusGatewayTimeout:
+		return context.DeadlineExceeded
+	case http.StatusServiceUnavailable:
+		d, _ := httputil.ParseRetryAfter(w.Header)
+		return errors.Unavailable(d)
+	case http.StatusForbidden:
+		return errors.Unauthenticated
+	case http.StatusUnauthorized:
+		return errors.PermissionDenied
+	case http.StatusNotFound:
+		return errors.NotFound
+	case http.StatusBadRequest:
+		failure := errdetails.BadRequest{}
+		pickUnmarshaller(w)(body, &failure)
+
+		violations := make([]*errors.FieldViolation, len(failure.FieldViolations))
+		for i, violation := range failure.FieldViolations {
+			violations[i] = &errors.FieldViolation{
+				Field:       violation.Field,
+				Description: violation.Description,
+			}
+		}
+		return errors.Bad(violations...)
+	case http.StatusPreconditionFailed:
+		failure := errdetails.PreconditionFailure{}
+		pickUnmarshaller(w)(body, &failure)
+
+		violations := make([]*errors.PreconditionViolation, len(failure.Violations))
+		for i, violation := range failure.Violations {
+			violations[i] = &errors.PreconditionViolation{
+				Type:        violation.Type,
+				Subject:     violation.Subject,
+				Description: violation.Description,
+			}
+		}
+		return errors.FailedPrecondition(violations...)
+	case http.StatusConflict:
+		return errors.Aborted()
+	case http.StatusTooManyRequests:
+		failure := errdetails.QuotaFailure{}
+		pickUnmarshaller(w)(body, &failure)
+
+		violations := make([]*errors.QuotaViolation, len(failure.Violations))
+		for i, violation := range failure.Violations {
+			violations[i] = &errors.QuotaViolation{
+				Subject:     violation.Subject,
+				Description: violation.Description,
+			}
+		}
+		return errors.ResourceExhausted(violations...)
+	}
+
+	return errors.New(w.Status)
 }
 
 // Pack returns a Status representing err if it was produced from an
@@ -172,4 +243,25 @@ func (se *statusError) HTTPStatus() *Status {
 		return nil
 	}
 	return &Status{*se}
+}
+
+type unmarshaller func(data []byte, v interface{}) error
+
+var nopUnmarshaller = func(data []byte, v interface{}) error { return nil }
+
+func pickUnmarshaller(w *http.Response) unmarshaller {
+	ctypes := w.Header.Get("Content-Type")
+	if ctypes == "" {
+		return nopUnmarshaller
+	}
+	mtype, _, err := mime.ParseMediaType(ctypes)
+	if err != nil {
+		return nopUnmarshaller
+	}
+
+	switch mtype {
+	case "application/json":
+		return json.Unmarshal
+	}
+	return nopUnmarshaller
 }
