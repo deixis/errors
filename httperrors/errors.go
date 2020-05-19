@@ -57,9 +57,9 @@ func Unmarshal(w *http.Response) error {
 		d, _ := httputil.ParseRetryAfter(w.Header)
 		return errors.Unavailable(d)
 	case http.StatusForbidden:
-		return errors.Unauthenticated
-	case http.StatusUnauthorized:
 		return errors.PermissionDenied
+	case http.StatusUnauthorized:
+		return errors.Unauthenticated
 	case http.StatusNotFound:
 		return errors.NotFound
 	case http.StatusBadRequest:
