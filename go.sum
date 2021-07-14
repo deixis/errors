@@ -54,8 +54,8 @@ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/deixis/errors v0.0.0-20191208202837-0577ef878ffc/go.mod h1:fvLYJ4UCctDKMyRFLL+r3g2+lLcXkv/WPfMMEAocp0Q=
 github.com/deixis/errors v0.0.0-20201016223924-c93deeb767f3/go.mod h1:hk1QahaDu530cj/8RjLKmn5j5h8sqI00kp97gwBcNng=
 github.com/deixis/pkg v0.0.0-20200103130914-29fc838fd0c5/go.mod h1:N0SEFUuk3o11EBczeAr0Oft9bXuK64I6o2hoQmQuaVg=
-github.com/deixis/pkg v0.0.0-20201016224005-3e2cc7901235 h1:0kGKG0n3W5CWVZV9XS6+k0lxM/RcITMNWbB2YVRaZqw=
-github.com/deixis/pkg v0.0.0-20201016224005-3e2cc7901235/go.mod h1:X6o1HnwZsQvuypbGcolGcsEgANVk9mpePFW0VEkDjPE=
+github.com/deixis/pkg v0.0.0-20210714115155-7509020cc23c h1:ygBZ9XiutgwlMwfQYgu0T5z7J/qDrefsAb1SfQ6f/pc=
+github.com/deixis/pkg v0.0.0-20210714115155-7509020cc23c/go.mod h1:BE49D7mYzgZBxD+d8m7GCMnjuKatFG4rXz5tOm3BsRI=
 github.com/deixis/spine v0.0.0/go.mod h1:FK2dlvIQXJbQm/VF3SfIbYmc8toFMqU5EzC425lk5CQ=
 github.com/deixis/spine v0.1.1/go.mod h1:VfXy9bf7YDj4NExmzWCK11Y27N4JgPoz7D4RMuwr3KI=
 github.com/deixis/spine v0.1.2-0.20201016213259-a5b34b04cb80/go.mod h1:fpPw4fcGXgG9xegrDxLr2eJAl9tqm8T5r8lxrTId6IU=

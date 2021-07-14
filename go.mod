@@ -3,7 +3,7 @@ module github.com/deixis/errors
 go 1.14
 
 require (
-	github.com/deixis/pkg v0.0.0-20201016224005-3e2cc7901235
+	github.com/deixis/pkg v0.0.0-20210714115155-7509020cc23c
 	github.com/deixis/spine v0.1.2-0.20210714112119-1e0fb2dc4385
 	github.com/golang/protobuf v1.4.1
 	github.com/pkg/errors v0.9.1
