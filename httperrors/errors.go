@@ -9,7 +9,6 @@ import (
 	"net/http"
 
 	"github.com/deixis/errors"
-	"github.com/deixis/pkg/httputil"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 )
 
@@ -54,7 +53,7 @@ func Unmarshal(w *http.Response) error {
 	case http.StatusGatewayTimeout:
 		return context.DeadlineExceeded
 	case http.StatusServiceUnavailable:
-		d, _ := httputil.ParseRetryAfter(w.Header)
+		d, _ := parseRetryAfter(w.Header)
 		return errors.Unavailable(d)
 	case http.StatusForbidden:
 		return errors.PermissionDenied
@@ -129,7 +128,7 @@ func pack(err error) (*Status, bool) {
 	switch err := err.(type) {
 	case *errors.AvailabilityFailure:
 		s := New(http.StatusServiceUnavailable, err.Error())
-		httputil.FormatRetryAfter(s.Header, err.RetryInfo.RetryDelay)
+		formatRetryAfter(s.Header, err.RetryInfo.RetryDelay)
 		return s, true
 	case *errors.PermissionFailure:
 		return New(http.StatusForbidden, err.Error()), true
