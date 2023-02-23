@@ -18,7 +18,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type Context struct {
 	ID                   string   `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
@@ -71,7 +71,9 @@ func init() {
 	proto.RegisterType((*Context)(nil), "contextpb.Context")
 }
 
-func init() { proto.RegisterFile("context/contextpb/context.proto", fileDescriptor_7b9a9f68daae1e0d) }
+func init() {
+	proto.RegisterFile("context/contextpb/context.proto", fileDescriptor_7b9a9f68daae1e0d)
+}
 
 var fileDescriptor_7b9a9f68daae1e0d = []byte{
 	// 94 bytes of a gzipped FileDescriptorProto

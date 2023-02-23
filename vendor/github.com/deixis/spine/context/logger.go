@@ -3,10 +3,9 @@ package context
 import (
 	"context"
 
-	"github.com/opentracing/opentracing-go"
-
 	"github.com/deixis/spine/log"
 	"github.com/deixis/spine/stats"
+	"github.com/opentracing/opentracing-go"
 )
 
 // WithLogger returns a copy of parent with a contextualised `log.Logger`

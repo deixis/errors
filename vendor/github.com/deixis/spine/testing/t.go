@@ -12,7 +12,7 @@ import (
 )
 
 // T is a wrapper of go standard testing.T
-// It adds a few additional functions useful to lego
+// It adds a few additional functions useful to spine
 type T struct {
 	once sync.Once
 	t    *testing.T
@@ -35,17 +35,17 @@ func New(t *testing.T) *T {
 	}
 }
 
-// Logger returns a lego logger interface
+// Logger returns a spine logger interface
 func (t *T) Logger() log.Logger {
 	return t.logger
 }
 
-// Stats returns a lego stats interface
+// Stats returns a spine stats interface
 func (t *T) Stats() stats.Stats {
 	return t.stats
 }
 
-// Config returns an empty lego config
+// Config returns an empty spine config
 func (t *T) Config() *config.Config {
 	return t.config
 }

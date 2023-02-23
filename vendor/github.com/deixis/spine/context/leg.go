@@ -1,6 +1,10 @@
 package context
 
-import "context"
+import (
+	"context"
+
+	"github.com/deixis/spine/contextutil"
+)
 
 // A Leg is a point-to-point request bounded by a process
 type Leg interface {
@@ -18,7 +22,7 @@ var activeLegKey = legKey{}
 
 // LegFromContext extracts `Leg` from context and returns `nil` when
 // no instance of `Leg` can be found
-func LegFromContext(ctx context.Context) Leg {
+func LegFromContext(ctx contextutil.ValueContext) Leg {
 	val := ctx.Value(activeLegKey)
 	if o, ok := val.(Leg); ok {
 		return o

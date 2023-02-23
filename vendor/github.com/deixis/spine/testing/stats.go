@@ -119,3 +119,6 @@ func (s *Stats) Histogram(key string, n interface{}, meta ...map[string]string) 
 func (s *Stats) With(meta map[string]string) stats.Stats {
 	return s
 }
+func (s *Stats) Log(l log.Logger) stats.Stats {
+	return s
+}

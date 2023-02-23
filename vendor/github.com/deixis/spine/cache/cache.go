@@ -4,6 +4,7 @@ package cache
 import (
 	"context"
 
+	"github.com/deixis/spine/contextutil"
 	"github.com/deixis/spine/disco"
 )
 
@@ -37,7 +38,7 @@ var activeContextKey = contextKey{}
 
 // FromContext returns a `Cache` instance associated with `ctx`, or
 // a `NopCache` if no `Cache` instance could be found.
-func FromContext(ctx context.Context) Cache {
+func FromContext(ctx contextutil.ValueContext) Cache {
 	val := ctx.Value(activeContextKey)
 	if o, ok := val.(Cache); ok {
 		return o

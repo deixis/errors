@@ -3,9 +3,10 @@ package tracing
 import (
 	"context"
 
-	opentracing "github.com/opentracing/opentracing-go"
+	"github.com/deixis/spine/contextutil"
 	"github.com/deixis/spine/log"
 	"github.com/deixis/spine/stats"
+	opentracing "github.com/opentracing/opentracing-go"
 )
 
 // Tracer follows the opentracing standard https://opentracing.io
@@ -110,7 +111,7 @@ var activeContextKey = contextKey{}
 
 // FromContext returns a `Tracer` instance associated with `ctx`, or
 // the `opentracing.GlobalTracer` if no `Tracer` instance could be found.
-func FromContext(ctx context.Context) Tracer {
+func FromContext(ctx contextutil.ValueContext) Tracer {
 	val := ctx.Value(activeContextKey)
 	if o, ok := val.(Tracer); ok {
 		return o

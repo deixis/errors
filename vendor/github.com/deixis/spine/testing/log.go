@@ -39,7 +39,12 @@ func NewLogger(t *testing.T, strict bool) log.Logger {
 }
 
 func (l *Logger) l(s, tag, msg string, args ...log.Field) {
-	l.t.Log(s, format(tag, msg, args...))
+	func() {
+		defer func() {
+			recover()
+		}()
+		l.t.Log(s, format(tag, msg, args...))
+	}()
 	l.inc(s)
 }
 

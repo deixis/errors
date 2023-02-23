@@ -1,7 +1,9 @@
 package grpc
 
 import (
-	"github.com/deixis/spine/context"
+	"context"
+
+	scontext "github.com/deixis/spine/context"
 	"github.com/deixis/spine/log"
 	"google.golang.org/grpc/metadata"
 )
@@ -13,24 +15,24 @@ const (
 
 // ExtractTransit extracts transit from ctx or creates a new one
 func ExtractTransit(ctx context.Context) (context.Context, error) {
-	var tr context.Transit
+	var tr scontext.Transit
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
-		ctx, tr = context.NewTransitWithContext(ctx)
+		ctx, tr = scontext.NewTransitWithContext(ctx)
 		log.Trace(ctx, "grpc.transit.new", "New transit", log.String("id", tr.UUID()))
 		return ctx, nil
 	}
 
 	// Transit
 	if data, ok := md[transitMD]; ok {
-		tr := context.TransitFactory()
+		tr := scontext.TransitFactory()
 		if err := tr.UnmarshalBinary([]byte(data[0])); err != nil {
 			return nil, err
 		}
-		ctx = context.TransitWithContext(ctx, tr)
+		ctx = scontext.TransitWithContext(ctx, tr)
 		log.Trace(ctx, "grpc.transit.extract", "Extract transit", log.String("uuid", tr.UUID()))
 	} else {
-		ctx, tr = context.NewTransitWithContext(ctx)
+		ctx, tr = scontext.NewTransitWithContext(ctx)
 		log.Trace(ctx, "grpc.transit.new", "New transit", log.String("uuid", tr.UUID()))
 	}
 	return ctx, nil
@@ -39,7 +41,7 @@ func ExtractTransit(ctx context.Context) (context.Context, error) {
 func EmbedContext(ctx context.Context) (context.Context, error) {
 	md := metadata.MD{}
 	// Transit
-	tr := context.TransitFromContext(ctx)
+	tr := scontext.TransitFromContext(ctx)
 	if tr != nil {
 		data, err := tr.Transmit().MarshalBinary()
 		if err != nil {

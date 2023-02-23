@@ -14,27 +14,27 @@ import (
 
 	"google.golang.org/grpc/status"
 
-	opentracing "github.com/opentracing/opentracing-go"
-	"github.com/opentracing/opentracing-go/ext"
-	olog "github.com/opentracing/opentracing-go/log"
-	"github.com/pkg/errors"
 	"github.com/deixis/spine/bg"
 	"github.com/deixis/spine/cache"
 	"github.com/deixis/spine/config"
-	lcontext "github.com/deixis/spine/context"
+	scontext "github.com/deixis/spine/context"
 	"github.com/deixis/spine/disco"
 	"github.com/deixis/spine/log"
 	lnet "github.com/deixis/spine/net"
 	"github.com/deixis/spine/schedule"
 	"github.com/deixis/spine/stats"
 	"github.com/deixis/spine/tracing"
+	opentracing "github.com/opentracing/opentracing-go"
+	"github.com/opentracing/opentracing-go/ext"
+	olog "github.com/opentracing/opentracing-go/log"
+	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/reflection"
 )
 
-// A Server defines parameters for running a lego compatible GRPC server
+// A Server defines parameters for running a spine compatible GRPC server
 type Server struct {
 	mode uint32
 	addr string
@@ -254,8 +254,8 @@ func (s *Server) unaryInterceptor(
 	if err != nil {
 		return nil, err
 	}
-	ctx = lcontext.WithTracer(ctx, tracing.FromContext(ctx))
-	ctx = lcontext.WithLogger(ctx, log.FromContext(ctx))
+	ctx = scontext.WithTracer(ctx, tracing.FromContext(ctx))
+	ctx = scontext.WithLogger(ctx, log.FromContext(ctx))
 
 	// Extract shipments
 	// TODO: Allow to serialise shipments with custom encoder/decoder
@@ -268,7 +268,7 @@ func (s *Server) unaryInterceptor(
 			}
 
 			for _, s := range shipments {
-				ctx = lcontext.WithShipment(ctx, s.Key, s.Value)
+				ctx = scontext.WithShipment(ctx, s.Key, s.Value)
 			}
 		}
 	}
@@ -312,8 +312,8 @@ func (s *Server) streamInterceptor(
 	if err != nil {
 		return err
 	}
-	ctx = lcontext.WithTracer(ctx, tracing.FromContext(ctx))
-	ctx = lcontext.WithLogger(ctx, log.FromContext(ctx))
+	ctx = scontext.WithTracer(ctx, tracing.FromContext(ctx))
+	ctx = scontext.WithLogger(ctx, log.FromContext(ctx))
 
 	// Extract shipments
 	// TODO: Allow to serialise shipments with custom encoder/decoder
@@ -326,7 +326,7 @@ func (s *Server) streamInterceptor(
 			}
 
 			for _, s := range shipments {
-				ctx = lcontext.WithShipment(ctx, s.Key, s.Value)
+				ctx = scontext.WithShipment(ctx, s.Key, s.Value)
 			}
 		}
 	}
@@ -396,7 +396,7 @@ func (s *serverStream) RecvMsg(m interface{}) error {
 // mwUnaryServerTracing traces requests with the context `Tracer`
 func mwUnaryServerTracing(next UnaryHandler) UnaryHandler {
 	return func(ctx context.Context, info *Info, req interface{}) (interface{}, error) {
-		tr := lcontext.TransitFromContext(ctx)
+		tr := scontext.TransitFromContext(ctx)
 
 		// Extract SpanContext from inbound context
 		var spanContext opentracing.SpanContext
@@ -489,7 +489,7 @@ func mwUnaryServerStats(next UnaryHandler) UnaryHandler {
 func mwStreamServerTracing(next StreamHandler) StreamHandler {
 	return func(srv interface{}, info *Info, ss grpc.ServerStream) error {
 		ctx := ss.Context()
-		tr := lcontext.TransitFromContext(ctx)
+		tr := scontext.TransitFromContext(ctx)
 
 		// Extract SpanContext from inbound context
 		var spanContext opentracing.SpanContext

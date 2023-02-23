@@ -19,7 +19,7 @@ import (
 const (
 	defaultPort = "443"
 	defaultFreq = time.Minute * 30
-	defaultSRV  = "lego"
+	defaultSRV  = "spine"
 )
 
 var (

@@ -5,10 +5,10 @@ import (
 	"context"
 	"encoding"
 
-	"github.com/gogo/protobuf/proto"
+	"github.com/deixis/spine/context/contextpb"
+	"github.com/golang/protobuf/proto"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
-	"github.com/deixis/spine/context/contextpb"
 )
 
 // TransitFactory creates empty Transit instances
