@@ -5,7 +5,7 @@ import (
 
 	"github.com/deixis/spine/cache"
 	"github.com/deixis/spine/config"
-	lcontext "github.com/deixis/spine/context"
+	scontext "github.com/deixis/spine/context"
 	"github.com/deixis/spine/disco"
 	"github.com/deixis/spine/log"
 	"github.com/deixis/spine/schedule"
@@ -14,7 +14,7 @@ import (
 )
 
 func BG(parent context.Context, f func(ctx context.Context)) error {
-	tr := lcontext.TransitFromContext(parent)
+	tr := scontext.TransitFromContext(parent)
 
 	return RegFromContext(parent).Dispatch(NewTask(func() {
 		// TODO: Reference context to parent (Follows ref)
@@ -32,12 +32,12 @@ func BG(parent context.Context, f func(ctx context.Context)) error {
 		ctx = cache.WithContext(ctx, cache.FromContext(parent))
 
 		if tr != nil {
-			ctx = lcontext.TransitWithContext(ctx, tr)
+			ctx = scontext.TransitWithContext(ctx, tr)
 		} else {
-			ctx, tr = lcontext.NewTransitWithContext(ctx)
+			ctx, tr = scontext.NewTransitWithContext(ctx)
 		}
-		lcontext.ShipmentRange(parent, func(k string, v interface{}) bool {
-			ctx = lcontext.WithShipment(ctx, k, v)
+		scontext.ShipmentRange(parent, func(k string, v interface{}) bool {
+			ctx = scontext.WithShipment(ctx, k, v)
 			return true
 		})
 

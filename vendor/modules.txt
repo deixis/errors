@@ -1,6 +1,7 @@
 # github.com/armon/go-metrics v0.3.0
 github.com/armon/go-metrics
-# github.com/deixis/spine v0.0.0
+# github.com/deixis/spine v0.1.2-0.20210714112119-1e0fb2dc4385
+## explicit
 github.com/deixis/spine/bg
 github.com/deixis/spine/cache
 github.com/deixis/spine/config
@@ -9,6 +10,7 @@ github.com/deixis/spine/config/adapter/consul
 github.com/deixis/spine/config/adapter/file
 github.com/deixis/spine/context
 github.com/deixis/spine/context/contextpb
+github.com/deixis/spine/contextutil
 github.com/deixis/spine/disco
 github.com/deixis/spine/log
 github.com/deixis/spine/net
@@ -18,9 +20,10 @@ github.com/deixis/spine/schedule
 github.com/deixis/spine/stats
 github.com/deixis/spine/testing
 github.com/deixis/spine/tracing
-# github.com/gogo/protobuf v1.3.1
-github.com/gogo/protobuf/proto
-# github.com/golang/protobuf v1.3.2
+# github.com/fatih/color v1.9.0
+github.com/fatih/color
+# github.com/golang/protobuf v1.4.1
+## explicit
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/protoc-gen-go/descriptor
 github.com/golang/protobuf/ptypes
@@ -29,18 +32,24 @@ github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
 # github.com/google/uuid v1.1.1
 github.com/google/uuid
-# github.com/hashicorp/consul/api v1.2.0
+# github.com/hashicorp/consul/api v1.9.1
 github.com/hashicorp/consul/api
 # github.com/hashicorp/go-cleanhttp v0.5.1
 github.com/hashicorp/go-cleanhttp
+# github.com/hashicorp/go-hclog v0.12.0
+github.com/hashicorp/go-hclog
 # github.com/hashicorp/go-immutable-radix v1.1.0
 github.com/hashicorp/go-immutable-radix
-# github.com/hashicorp/go-rootcerts v1.0.1
+# github.com/hashicorp/go-rootcerts v1.0.2
 github.com/hashicorp/go-rootcerts
 # github.com/hashicorp/golang-lru v0.5.3
 github.com/hashicorp/golang-lru/simplelru
-# github.com/hashicorp/serf v0.8.5
+# github.com/hashicorp/serf v0.9.5
 github.com/hashicorp/serf/coordinate
+# github.com/mattn/go-colorable v0.1.6
+github.com/mattn/go-colorable
+# github.com/mattn/go-isatty v0.0.12
+github.com/mattn/go-isatty
 # github.com/mitchellh/go-homedir v1.1.0
 github.com/mitchellh/go-homedir
 # github.com/mitchellh/mapstructure v1.1.2
@@ -52,18 +61,23 @@ github.com/opentracing/opentracing-go/log
 # github.com/pelletier/go-toml v1.6.0
 github.com/pelletier/go-toml
 github.com/pelletier/go-toml/query
-# github.com/pkg/errors v0.8.1
+# github.com/pkg/errors v0.9.1
+## explicit
 github.com/pkg/errors
-# golang.org/x/net v0.0.0-20191109021931-daa7c04131f5
+# github.com/stretchr/objx v0.1.1
+## explicit
+# golang.org/x/net v0.0.0-20220722155237-a158d28d115b
 golang.org/x/net/http/httpguts
 golang.org/x/net/http2
 golang.org/x/net/http2/hpack
 golang.org/x/net/idna
 golang.org/x/net/internal/timeseries
 golang.org/x/net/trace
-# golang.org/x/sys v0.0.0-20191110163157-d32e6e3b99c4
+# golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f
+golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
-# golang.org/x/text v0.3.2
+# golang.org/x/text v0.3.8
+## explicit
 golang.org/x/text/internal/language
 golang.org/x/text/internal/language/compact
 golang.org/x/text/internal/tag
@@ -73,10 +87,13 @@ golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
 # google.golang.org/genproto v0.0.0-20191115221424-83cc0476cb11
+## explicit
 google.golang.org/genproto/googleapis/rpc/errdetails
 google.golang.org/genproto/googleapis/rpc/status
-# google.golang.org/grpc v1.25.1
+# google.golang.org/grpc v1.28.0
+## explicit
 google.golang.org/grpc
+google.golang.org/grpc/attributes
 google.golang.org/grpc/backoff
 google.golang.org/grpc/balancer
 google.golang.org/grpc/balancer/base
@@ -96,8 +113,10 @@ google.golang.org/grpc/internal/binarylog
 google.golang.org/grpc/internal/buffer
 google.golang.org/grpc/internal/channelz
 google.golang.org/grpc/internal/envconfig
+google.golang.org/grpc/internal/grpclog
 google.golang.org/grpc/internal/grpcrand
 google.golang.org/grpc/internal/grpcsync
+google.golang.org/grpc/internal/grpcutil
 google.golang.org/grpc/internal/resolver/dns
 google.golang.org/grpc/internal/resolver/passthrough
 google.golang.org/grpc/internal/syscall
@@ -113,3 +132,35 @@ google.golang.org/grpc/serviceconfig
 google.golang.org/grpc/stats
 google.golang.org/grpc/status
 google.golang.org/grpc/tap
+# google.golang.org/protobuf v1.22.0
+google.golang.org/protobuf/encoding/prototext
+google.golang.org/protobuf/encoding/protowire
+google.golang.org/protobuf/internal/descfmt
+google.golang.org/protobuf/internal/descopts
+google.golang.org/protobuf/internal/detrand
+google.golang.org/protobuf/internal/encoding/defval
+google.golang.org/protobuf/internal/encoding/messageset
+google.golang.org/protobuf/internal/encoding/tag
+google.golang.org/protobuf/internal/encoding/text
+google.golang.org/protobuf/internal/errors
+google.golang.org/protobuf/internal/fieldnum
+google.golang.org/protobuf/internal/fieldsort
+google.golang.org/protobuf/internal/filedesc
+google.golang.org/protobuf/internal/filetype
+google.golang.org/protobuf/internal/flags
+google.golang.org/protobuf/internal/genname
+google.golang.org/protobuf/internal/impl
+google.golang.org/protobuf/internal/mapsort
+google.golang.org/protobuf/internal/pragma
+google.golang.org/protobuf/internal/set
+google.golang.org/protobuf/internal/strs
+google.golang.org/protobuf/internal/version
+google.golang.org/protobuf/proto
+google.golang.org/protobuf/reflect/protoreflect
+google.golang.org/protobuf/reflect/protoregistry
+google.golang.org/protobuf/runtime/protoiface
+google.golang.org/protobuf/runtime/protoimpl
+google.golang.org/protobuf/types/descriptorpb
+google.golang.org/protobuf/types/known/anypb
+google.golang.org/protobuf/types/known/durationpb
+google.golang.org/protobuf/types/known/timestamppb

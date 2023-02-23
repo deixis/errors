@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/deixis/spine/contextutil"
 	"github.com/google/uuid"
 )
 
@@ -217,7 +218,7 @@ var activeSchedulerContextKey = contextKey{}
 
 // SchedulerFromContext returns an `Scheduler` instance associated with `ctx`, or
 // the local `Scheduler` if no instance could be found.
-func SchedulerFromContext(ctx context.Context) Scheduler {
+func SchedulerFromContext(ctx contextutil.ValueContext) Scheduler {
 	val := ctx.Value(activeSchedulerContextKey)
 	if o, ok := val.(Scheduler); ok {
 		return o

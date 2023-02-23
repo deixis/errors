@@ -82,7 +82,7 @@ func (r *Reg) Serve(ctx context.Context) error {
 		go func(addr string, s Server) {
 			// Deregister itself upon completion
 			defer func() {
-				r.log.Trace("lego.serve.s.stop", "Server has stopped running",
+				r.log.Trace("spine.serve.s.stop", "Server has stopped running",
 					log.String("addr", addr),
 					log.Type("server", s),
 				)
@@ -91,7 +91,7 @@ func (r *Reg) Serve(ctx context.Context) error {
 				r.mu.Unlock()
 			}()
 
-			r.log.Trace("lego.serve.s", "Server starts serving",
+			r.log.Trace("spine.serve.s", "Server starts serving",
 				log.String("addr", addr),
 				log.Type("server", s),
 			)
@@ -99,7 +99,7 @@ func (r *Reg) Serve(ctx context.Context) error {
 			// TODO: Send pre-flight requests to make sure the server is ready
 			err := s.Serve(ctx, addr)
 			if err != nil {
-				r.log.Error("lego.serve.s", "Server error",
+				r.log.Error("spine.serve.s", "Server error",
 					log.String("addr", addr),
 					log.Error(err),
 				)

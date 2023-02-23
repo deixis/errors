@@ -1,6 +1,6 @@
-// Package bg aims to manage all background jobs run on lego.
+// Package bg aims to manage all background jobs run on spine.
 // This allows to keep the number of background tasks in control and drain
-// them properly when it is time to stop a lego.
+// them properly when it is time to stop a spine.
 //
 // Background jobs will typically be potentially long operations, such as
 // uploading files, sending emails or push notifications. It can also

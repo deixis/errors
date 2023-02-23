@@ -2,6 +2,8 @@ package context
 
 import (
 	"context"
+
+	"github.com/deixis/spine/contextutil"
 )
 
 // Shipment is a just key:value pair that crosses process boundaries
@@ -32,7 +34,7 @@ func WithShipment(parent context.Context, key string, val interface{}) context.C
 // Shipment returns the shipment associated with this context for key, or nil
 // if no value is associated with key. Successive calls to Value with
 // the same key returns the same result.
-func Shipment(ctx context.Context, key string) interface{} {
+func Shipment(ctx contextutil.ValueContext, key string) interface{} {
 	for sh := shipmentFromContext(ctx); sh != nil; sh = sh.next {
 		if sh.key == key {
 			return sh.val
@@ -43,7 +45,7 @@ func Shipment(ctx context.Context, key string) interface{} {
 
 // ShipmentRange calls f sequentially for each shipment in the context stack.
 // If f returns false, range stops the iteration.
-func ShipmentRange(ctx context.Context, f func(key string, value interface{}) bool) {
+func ShipmentRange(ctx contextutil.ValueContext, f func(key string, value interface{}) bool) {
 	for sh := shipmentFromContext(ctx); sh != nil; sh = sh.next {
 		if !f(sh.key, sh.val) {
 			return
@@ -57,7 +59,7 @@ var activeShipmentKey = shipmentKey{}
 
 // shipmentFromContext extracts `Shipment` from context and returns `nil` when
 // no instance of `Shipment` can be found
-func shipmentFromContext(ctx context.Context) *shipment {
+func shipmentFromContext(ctx contextutil.ValueContext) *shipment {
 	val := ctx.Value(activeShipmentKey)
 	if o, ok := val.(*shipment); ok {
 		return o

@@ -3,9 +3,11 @@ package config
 import (
 	"context"
 	"time"
+
+	"github.com/deixis/spine/contextutil"
 )
 
-// TODO: Move these structs to lego package once ctx.App is gone
+// TODO: Move these structs to spine package once ctx.App is gone
 
 // Config defines the app config
 type Config struct {
@@ -32,7 +34,7 @@ var activeTreeContextKey = contextKey{}
 
 // TreeFromContext returns a config `Tree` instance associated with `ctx`, or
 // a `NopTree` if no `Tree` instance could be found.
-func TreeFromContext(ctx context.Context) Tree {
+func TreeFromContext(ctx contextutil.ValueContext) Tree {
 	val := ctx.Value(activeTreeContextKey)
 	if o, ok := val.(Tree); ok {
 		return o

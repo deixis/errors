@@ -1,8 +1,9 @@
 package stats
 
 import (
-	"log"
 	"time"
+
+	"github.com/deixis/spine/log"
 )
 
 type nop struct{}
@@ -22,5 +23,8 @@ func (s *nop) Gauge(key string, n interface{}, meta ...map[string]string)     {}
 func (s *nop) Timing(key string, t time.Duration, meta ...map[string]string)  {}
 func (s *nop) Histogram(key string, n interface{}, tags ...map[string]string) {}
 func (s *nop) With(meta map[string]string) Stats {
+	return &nop{}
+}
+func (s *nop) Log(l log.Logger) Stats {
 	return &nop{}
 }

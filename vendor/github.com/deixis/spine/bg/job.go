@@ -85,10 +85,11 @@ func (r *Reg) Dispatch(j Job) error {
 
 // Drain sends a Stop() signal to all registered jobs and rejects new jobs
 func (r *Reg) Drain() {
-	// Check if we are already draining
 	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	// Check if we are already draining
 	if r.drain {
-		r.mu.Unlock()
 		return
 	}
 	r.drain = true
@@ -96,9 +97,6 @@ func (r *Reg) Drain() {
 	// Build WG
 	wg := &sync.WaitGroup{}
 	wg.Add(len(r.jobs))
-
-	// Release lock
-	r.mu.Unlock()
 
 	// Start draining jobs
 	r.log.Trace("bg.drain.start", "Draining registry",

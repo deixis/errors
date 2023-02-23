@@ -4,6 +4,8 @@ import (
 	"context"
 	"net"
 	"strconv"
+
+	"github.com/deixis/spine/contextutil"
 )
 
 // An Agent interacts with a service discovery cluster to manage all services
@@ -75,7 +77,7 @@ var activeAgentContextKey = contextKey{}
 
 // AgentFromContext returns an `Agent` instance associated with `ctx`, or
 // the local `Agent` if no instance could be found.
-func AgentFromContext(ctx context.Context) Agent {
+func AgentFromContext(ctx contextutil.ValueContext) Agent {
 	val := ctx.Value(activeAgentContextKey)
 	if o, ok := val.(Agent); ok {
 		return o
